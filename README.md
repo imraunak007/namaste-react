@@ -1,1 +1,1 @@
-# Namaste JavaScript 🚀
+# Namaste React 🚀
