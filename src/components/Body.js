@@ -42,22 +42,23 @@ const Body = () => {
                     }} />
                     <button onClick={() => {
                         const filteredRestaurant = listOfRestaurants.filter((res) => {
-                            return res.info.name.toLowerCase().includes(searchText.toLowerCase())
+                            return res?.info?.name.toLowerCase().includes(searchText.toLowerCase())
                         });
                         setFilteredRestaurants(filteredRestaurant);
                         console.log(searchText);
                     }}>Search</button>
                 </div>
                 <button className="filter-btn" onClick={() => {
-                    const filteredList = listOfRestaurants.filter((res) => res.info.avgRating === 4.3);
-                    setListOfRestaurants(filteredList);
+                    const filteredList = listOfRestaurants.filter((res) => res?.info?.avgRating === 4.3);
+                    console.log(filteredList);
+                    setFilteredRestaurants(filteredList);
                 }}>
                     Top Rated Restaurants
                 </button>
             </div>
             <div className="res-container">
                 {filteredRestaurants.map((restaurant) => {
-                    return (<Link key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}><RestaurantCard resData={restaurant}/></Link>)
+                    return (<Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}><RestaurantCard resData={restaurant}/></Link>)
                 })}
             </div>
         </div>
