@@ -1,9 +1,10 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import resList from "../utils/mockData";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
 
@@ -12,6 +13,8 @@ const Body = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
     const [searchText, setSearchText] = useState("");
+
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
     useEffect(() => {
         //console.log("useEffect Called");
@@ -38,6 +41,8 @@ const Body = () => {
     if (onlineStatus === false)
         return <h1>You are Offline!!!</h1>;
 
+    const { loggedInUser, setUserName } = useContext(UserContext);
+
     return listOfRestaurants.length === 0 ? <Shimmer /> : (
         <div className="body">
             <div className="flex">
@@ -62,10 +67,17 @@ const Body = () => {
                     Top Rated Restaurants
                 </button>
                 </div>
+                <div className="p-4 m-4 flex items-center">
+                <input type="text" className="border border-black border-solid" value={loggedInUser} onChange={(e) => {
+                        setUserName(e.target.value);
+                    }} />
+                </div>
             </div>
             <div className="flex flex-wrap">
                 {filteredRestaurants.map((restaurant) => {
-                    return (<Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}><RestaurantCard resData={restaurant}/></Link>)
+                    return (<Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}>
+                        {restaurant?.info?.locality === "Kasba" ? <RestaurantCard resData={restaurant}/> : <RestaurantCardPromoted resData={restaurant} />}
+                        </Link>)
                 })}
             </div>
         </div>

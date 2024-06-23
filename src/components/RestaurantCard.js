@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { CDN_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
 const styleCard = {
     backgroundColor: "#f0f0f0"
@@ -6,6 +8,7 @@ const styleCard = {
 
 const RestaurantCard = (props) => {
 
+    const { loggedInUser } = useContext(UserContext);
     const { resData } = props;
 
     const {
@@ -27,8 +30,25 @@ const RestaurantCard = (props) => {
             <h4>{avgRating} stars</h4>
             <h4>{costForTwo}</h4>
             <h4>{deliveryTime} minutes</h4>
+            <h4>User : {loggedInUser}</h4>
         </div>
     );
 };
+
+// higher oreder component
+
+ export const withPromotedLabel = (RestaurantCard) => {
+
+    return (props) => {
+        // console.log(props);
+        // console.log({...props});
+        return (
+            <div>
+                <label className="bg-black text-white m-2 p-2 rounded-lg absolute">Promoted</label>
+                <RestaurantCard {...props}/>
+            </div>
+        )
+    }
+}
 
 export default RestaurantCard;
