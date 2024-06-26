@@ -47,7 +47,7 @@ const Body = () => {
         <div className="body">
             <div className="flex">
                 <div className="p-4 m-4">
-                    <input type="text" className="border border-black border-solid" value={searchText} onChange={(e) => {
+                    <input data-testid="searchInput" type="text" className="border border-black border-solid" value={searchText} onChange={(e) => {
                         setSearchText(e.target.value);
                     }} />
                     <button className="px-4 py-2 m-4 bg-green-100 rounded-lg" onClick={() => {
@@ -73,7 +73,7 @@ const Body = () => {
                     }} />
                 </div>
             </div>
-            <div className="flex flex-wrap">
+            <div data-testid="resCard" className="flex flex-wrap">
                 {filteredRestaurants.map((restaurant) => {
                     return (<Link key={restaurant?.info?.id} to={"/restaurants/" + restaurant?.info?.id}>
                         {restaurant?.info?.locality === "Kasba" ? <RestaurantCard resData={restaurant}/> : <RestaurantCardPromoted resData={restaurant} />}
